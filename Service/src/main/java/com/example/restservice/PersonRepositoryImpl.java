@@ -29,15 +29,16 @@ public class PersonRepositoryImpl implements PersonRepository{
     }
 
     @Override
-    public Person updatePerson(Person person) throws PersonNotFoundEx {
+    public Person updatePerson(int personID, PersonDTO person) throws PersonNotFoundEx {
         for (Person p:personList){
-            if (p.getId() == person.getId()){
+            if (p.getId() == personID){
                 p.setAge(person.getAge());
                 p.setName(person.getName());
+                p.setEmail(person.getEmail());
                 return p;
             }
         }
-        throw new PersonNotFoundEx(person.getId());
+        throw new PersonNotFoundEx(personID);
     }
 
     @Override
