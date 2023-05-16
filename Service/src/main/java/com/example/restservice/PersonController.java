@@ -22,28 +22,23 @@ public class PersonController {
                 .body(p);
     }
     @RequestMapping(value = "/persons", method = RequestMethod.GET)
-    public ResponseEntity<List<Person>> getPersons(){
-        System.out.println("...wywołano getPersons");
-        List<Person> list = personRepository.getAllPersons();
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(list);
-    }
-
-    @RequestMapping(value = "/persons/filter", method = RequestMethod.GET)
-    public ResponseEntity<List<Person>> getPersonsFilter(
+    public ResponseEntity<List<Person>> getPersons(
             @RequestParam(required = false) Optional<String> name,
             @RequestParam(required = false) Optional<String> email,
-            @RequestParam(required = false) Optional<Integer> age) {
-        System.out.println("...wywołano getPersonsFilter");
-        List<Person> list = personRepository.getPersonsFilter(name, email, age);
+            @RequestParam(required = false) Optional<Integer> age){
+        System.out.println("...wywołano getPersons");
+        List<Person> list;
+        if (name.isEmpty() && email.isEmpty() && age.isEmpty())
+            list = personRepository.getAllPersons();
+        else
+            list = personRepository.getPersonsFilter(name, email, age);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(list);
     }
 
     @RequestMapping(value = "/persons", method = RequestMethod.POST)
-    public ResponseEntity<Person> addPerson(@RequestBody Person person) throws BadRequestEx{
+    public ResponseEntity<Person> addPerson(@RequestBody PersonDTO person) throws BadRequestEx{
         System.out.println("...wywołano addPerson");
         Person p = personRepository.addPerson(person);
         return ResponseEntity
@@ -54,7 +49,7 @@ public class PersonController {
 
     @RequestMapping(value = "/persons/{personID}", method = RequestMethod.PUT)
     public ResponseEntity<Person> updatePerson(@PathVariable int personID, @RequestBody PersonDTO person)
-            throws PersonNotFoundEx{
+            throws PersonNotFoundEx, BadRequestEx{
         System.out.println("...wywołano updatePerson");
         Person p = personRepository.updatePerson(personID, person);
         return ResponseEntity

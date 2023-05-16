@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 public class PersonRepositoryImpl implements PersonRepository{
     private final List<Person> personList;
+    private int idCounter = 5;
 
     public PersonRepositoryImpl(){
         personList = new ArrayList<>();
@@ -40,7 +41,9 @@ public class PersonRepositoryImpl implements PersonRepository{
     }
 
     @Override
-    public Person updatePerson(int personID, PersonDTO person) throws PersonNotFoundEx {
+    public Person updatePerson(int personID, PersonDTO person) throws PersonNotFoundEx, BadRequestEx {
+        if (person.getName().isEmpty()  || person.getAge() <= 0 || person.getEmail().isEmpty())
+            throw new BadRequestEx("Invalid input. No content.");
         for (Person p:personList){
             if (p.getId() == personID){
                 p.setAge(person.getAge());
@@ -64,13 +67,12 @@ public class PersonRepositoryImpl implements PersonRepository{
     }
 
     @Override
-    public Person addPerson(Person person) throws BadRequestEx {
-        for (Person p:personList){
-            if (p.getId() == person.getId())
-                throw new BadRequestEx(person.getId());
-        }
-        personList.add(person);
-        return person;
+    public Person addPerson(PersonDTO person)  throws BadRequestEx{
+        if (person.getName().isEmpty()  || person.getAge() <= 0 || person.getEmail().isEmpty())
+            throw new BadRequestEx("Invalid input. No content.");
+        Person newPerson = new Person(idCounter++, person.getName(), person.getAge(), person.getEmail());
+        personList.add(newPerson);
+        return newPerson;
     }
     @Override
     public Integer countPersons(){
