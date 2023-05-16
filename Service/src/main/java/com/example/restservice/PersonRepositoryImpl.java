@@ -42,8 +42,7 @@ public class PersonRepositoryImpl implements PersonRepository{
 
     @Override
     public Person updatePerson(int personID, PersonDTO person) throws PersonNotFoundEx, BadRequestEx {
-        if (person.getName().isEmpty()  || person.getAge() <= 0 || person.getEmail().isEmpty())
-            throw new BadRequestEx("Invalid input. No content.");
+        checkInputs(person.getName(), person.getEmail(), person.getAge());
         for (Person p:personList){
             if (p.getId() == personID){
                 p.setAge(person.getAge());
@@ -67,9 +66,8 @@ public class PersonRepositoryImpl implements PersonRepository{
     }
 
     @Override
-    public Person addPerson(PersonDTO person)  throws BadRequestEx{
-        if (person.getName().isEmpty()  || person.getAge() <= 0 || person.getEmail().isEmpty())
-            throw new BadRequestEx("Invalid input. No content.");
+    public Person addPerson(PersonDTO person) throws BadRequestEx{
+        checkInputs(person.getName(), person.getEmail(), person.getAge());
         Person newPerson = new Person(idCounter++, person.getName(), person.getAge(), person.getEmail());
         personList.add(newPerson);
         return newPerson;
@@ -79,4 +77,12 @@ public class PersonRepositoryImpl implements PersonRepository{
         return personList.size();
     }
 
+    private void checkInputs(String name, String email, int age)  throws BadRequestEx{
+        if (name == null || name.isEmpty() || name.isBlank())
+            throw new BadRequestEx("Invalid input. No name content.");
+        if (email == null || email.isEmpty() || email.isBlank())
+            throw new BadRequestEx("Invalid input. No email content.");
+        if (age <=0)
+            throw new BadRequestEx("Invalid age input.");
+    }
 }

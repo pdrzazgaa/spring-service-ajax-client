@@ -7,5 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class PersonNotFoundEx extends Exception{
     public PersonNotFoundEx(int id) {
         super(String.valueOf(id));
+        System.out.println("Person Not Found Exception. ID: " + id);
     }
 }

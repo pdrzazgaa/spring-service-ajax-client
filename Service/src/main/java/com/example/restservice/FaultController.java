@@ -37,7 +37,6 @@ public class FaultController {
                 .body(Problem.create()
                         .withStatus(HttpStatus.BAD_REQUEST)
                         .withTitle(HttpStatus.BAD_REQUEST.name())
-                        .withDetail("The request of ID = " +
-                                ex.getMessage() + " IS NOT VALID"));
+                        .withDetail(ex.getMessage()));
     }
 }

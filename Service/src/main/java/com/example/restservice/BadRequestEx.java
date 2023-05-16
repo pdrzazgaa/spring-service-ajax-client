@@ -7,5 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class BadRequestEx extends Exception{
     public BadRequestEx(String message) {
         super(message);
+        System.out.println("Bad Request Exception: " + message);
     }
 }
