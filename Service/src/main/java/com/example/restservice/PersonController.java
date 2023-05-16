@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class PersonController {
@@ -24,6 +25,18 @@ public class PersonController {
     public ResponseEntity<List<Person>> getPersons(){
         System.out.println("...wywołano getPersons");
         List<Person> list = personRepository.getAllPersons();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(list);
+    }
+
+    @RequestMapping(value = "/persons/filter", method = RequestMethod.GET)
+    public ResponseEntity<List<Person>> getPersonsFilter(
+            @RequestParam(required = false) Optional<String> name,
+            @RequestParam(required = false) Optional<String> email,
+            @RequestParam(required = false) Optional<Integer> age) {
+        System.out.println("...wywołano getPersonsFilter");
+        List<Person> list = personRepository.getPersonsFilter(name, email, age);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(list);

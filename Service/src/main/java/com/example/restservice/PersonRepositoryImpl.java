@@ -2,6 +2,9 @@ package com.example.restservice;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class PersonRepositoryImpl implements PersonRepository{
     private final List<Person> personList;
@@ -19,6 +22,14 @@ public class PersonRepositoryImpl implements PersonRepository{
         return personList;
     }
 
+    @Override
+    public List<Person> getPersonsFilter(Optional<String> name, Optional<String> email, Optional<Integer> age){
+        return personList.stream()
+                .filter(p -> age.isEmpty() || p.getAge() == age.get())
+                .filter(p -> email.isEmpty() || Objects.equals(p.getEmail(), email.get()))
+                .filter(p -> name.isEmpty() || Objects.equals(p.getName(), name.get()))
+                .collect(Collectors.toList());
+    }
     @Override
     public Person getPerson(int id) throws PersonNotFoundEx {
         for (Person p:personList){
