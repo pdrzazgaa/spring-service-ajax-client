@@ -67,7 +67,9 @@ public class PersonController {
     public ResponseEntity deletePerson(@PathVariable int id) throws PersonNotFoundEx{
         System.out.println("...wywołano deletePerson");
         boolean b = personRepository.deletePerson(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
     }
 
     @RequestMapping(value = "/count", method = RequestMethod.GET)
