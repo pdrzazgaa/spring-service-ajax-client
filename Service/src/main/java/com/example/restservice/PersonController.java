@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:8080", maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping(value = "/persons",
         produces = {
                 MediaType.APPLICATION_JSON_VALUE,
