@@ -11,12 +11,17 @@
     <groupId>com.example</groupId>
     <artifactId>RestService</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>RestSerivice</name>
-    <description>RestSerivice</description>
+    <name>RestService</name>
+    <description>RestService</description>
     <properties>
         <java.version>17</java.version>
     </properties>
     <dependencies>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-hateoas</artifactId>

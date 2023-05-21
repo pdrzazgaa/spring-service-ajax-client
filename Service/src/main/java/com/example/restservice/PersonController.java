@@ -9,11 +9,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:8080", maxAge = 3600)
+@RequestMapping(value = "/persons",
+        produces = {
+                MediaType.APPLICATION_JSON_VALUE,
+                MediaType.APPLICATION_XML_VALUE})
 @RestController
 public class PersonController {
 
     PersonRepository personRepository = new PersonRepositoryImpl();
-    @RequestMapping(value = "/persons/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Person> getPerson(@PathVariable int id) throws PersonNotFoundEx{
         System.out.println("...wywołano getPerson");
         Person p = personRepository.getPerson(id);
@@ -21,7 +26,7 @@ public class PersonController {
                 .status(HttpStatus.OK)
                 .body(p);
     }
-    @RequestMapping(value = "/persons", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<Person>> getPersons(
             @RequestParam(required = false) Optional<String> name,
             @RequestParam(required = false) Optional<String> email,
@@ -37,7 +42,7 @@ public class PersonController {
                 .body(list);
     }
 
-    @RequestMapping(value = "/persons", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Person> addPerson(@RequestBody PersonDTO person) throws BadRequestEx{
         System.out.println("...wywołano addPerson");
         Person p = personRepository.addPerson(person);
@@ -47,7 +52,7 @@ public class PersonController {
                 .body(p);
     }
 
-    @RequestMapping(value = "/persons/{personID}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{personID}", method = RequestMethod.PUT)
     public ResponseEntity<Person> updatePerson(@PathVariable int personID, @RequestBody PersonDTO person)
             throws PersonNotFoundEx, BadRequestEx{
         System.out.println("...wywołano updatePerson");
@@ -58,14 +63,14 @@ public class PersonController {
                 .body(p);
     }
 
-    @RequestMapping(value = "/persons/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity deletePerson(@PathVariable int id) throws PersonNotFoundEx{
         System.out.println("...wywołano deletePerson");
         boolean b = personRepository.deletePerson(id);
         return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(value = "/persons/count", method = RequestMethod.GET)
+    @RequestMapping(value = "/count", method = RequestMethod.GET)
     public ResponseEntity<CountPerson> countPersons(){
         System.out.println("...wywołano countPerson");
         CountPerson c = new CountPerson(personRepository.countPersons());
