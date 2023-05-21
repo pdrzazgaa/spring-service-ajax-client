@@ -41,13 +41,15 @@ public class PersonRepositoryImpl implements PersonRepository{
     }
 
     @Override
-    public Person updatePerson(int personID, PersonDTO person) throws PersonNotFoundEx, BadRequestEx {
-        checkInputs(person.getName(), person.getEmail(), person.getAge());
+    public Person updatePerson(int personID, PersonDTO person) throws PersonNotFoundEx {
         for (Person p:personList){
             if (p.getId() == personID){
-                p.setAge(person.getAge());
-                p.setName(person.getName());
-                p.setEmail(person.getEmail());
+                if (person.getAge() > 0)
+                    p.setAge(person.getAge());
+                if (person.getName() != null)
+                    p.setName(person.getName());
+                if (person.getEmail() != null)
+                    p.setEmail(person.getEmail());
                 return p;
             }
         }
