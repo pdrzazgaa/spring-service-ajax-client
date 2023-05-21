@@ -59,7 +59,6 @@ public class PersonController {
         Person p = personRepository.updatePerson(personID, person);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .body(p);
     }
 
@@ -69,7 +68,7 @@ public class PersonController {
         boolean b = personRepository.deletePerson(id);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .build();
+                .body("{\"val\": \"OK\"}");
     }
 
     @RequestMapping(value = "/count", method = RequestMethod.GET)
@@ -78,7 +77,6 @@ public class PersonController {
         CountPerson c = new CountPerson(personRepository.countPersons());
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .body(c);
     }
 }
