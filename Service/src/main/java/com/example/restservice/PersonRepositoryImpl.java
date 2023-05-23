@@ -68,8 +68,11 @@ public class PersonRepositoryImpl implements PersonRepository{
     }
 
     @Override
-    public Person addPerson(PersonDTO person) throws BadRequestEx{
+    public Person addPerson(PersonDTO person) throws BadRequestEx, PersonAlreadyExistEx{
         checkInputs(person.getName(), person.getEmail(), person.getAge());
+        for (Person p:personList){
+            if (p.getEmail().equals(person.getEmail())) throw new PersonAlreadyExistEx("Person already exists.");
+        }
         Person newPerson = new Person(idCounter++, person.getName(), person.getAge(), person.getEmail());
         personList.add(newPerson);
         return newPerson;

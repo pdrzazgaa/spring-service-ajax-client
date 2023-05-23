@@ -39,4 +39,17 @@ public class FaultController {
                         .withTitle(HttpStatus.BAD_REQUEST.name())
                         .withDetail(ex.getMessage()));
     }
+
+    @ResponseBody
+    @ExceptionHandler(PersonAlreadyExistEx.class)
+    @ResponseStatus(value = HttpStatus.CONFLICT)
+    ResponseEntity PAEHandler(PersonAlreadyExistEx ex) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)
+                .body(Problem.create()
+                        .withStatus(HttpStatus.CONFLICT)
+                        .withTitle(HttpStatus.CONFLICT.name())
+                        .withDetail(ex.getMessage()));
+    }
 }
