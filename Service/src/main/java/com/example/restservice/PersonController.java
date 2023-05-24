@@ -43,7 +43,7 @@ public class PersonController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Person> addPerson(@RequestBody PersonDTO person) throws BadRequestEx{
+    public ResponseEntity<Person> addPerson(@RequestBody PersonDTO person) throws BadRequestEx, PersonAlreadyExistEx{
         System.out.println("...wywołano addPerson");
         Person p = personRepository.addPerson(person);
         return ResponseEntity

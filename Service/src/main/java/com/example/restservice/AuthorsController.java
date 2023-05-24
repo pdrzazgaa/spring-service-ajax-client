@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthorsController {
     @RequestMapping(value="authors")
     public ResponseEntity<Author> getAuthors(){
-        Author authors = new Author("Czerwiński Jakub 260370, Drzazga Paulina 260370");
+        Author authors = new Author("Czerwiński Jakub 260335, Drzazga Paulina 260370");
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(authors);
